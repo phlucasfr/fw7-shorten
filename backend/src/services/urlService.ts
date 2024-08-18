@@ -11,7 +11,17 @@ const generateShortId = (): string => uuidv4().slice(0, 8);
 
 export const shortenUrlService = async (originalUrl: string, remainingUrls: number): Promise<ShortenPayload> => {
   const shortId: string = generateShortId();
-  await saveUrl({ originalUrl, shortId });
+
+  const urlWithProtocol = originalUrl.startsWith('http://') || originalUrl.startsWith('https://')
+    ? originalUrl
+    : `https://${originalUrl}`;
+
+  const urlWithWww = urlWithProtocol.replace(/^(http:\/\/|https:\/\/)?(www\.)?/, (match, p1, p2) => {
+    if (p1 || p2) return match;
+    return `http://www.${originalUrl}`;
+  });
+
+  await saveUrl({ originalUrl: urlWithWww, shortId });
   return {
     shortUrl: `https://fw7-shrt.vercel.app/${shortId}`,
     remaining: remainingUrls - 1,
