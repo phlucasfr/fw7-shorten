@@ -27,16 +27,18 @@ Input.propTypes = {
 }
 
 const Welcome = () => {
-
     const { connectWallet, currentAccount, formData, setFormData, handleChange, sendTransaction, shortUrl, urlsRemaining } = useContext(TransactionContext);
     const [isCopied, setIsCopied] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!formData.url) return;
 
-        sendTransaction();
+        setIsLoading(true); // Inicia o carregamento
+        await sendTransaction();
+        setIsLoading(false); // Finaliza o carregamento
     };
 
     const handleCopy = () => {
@@ -110,10 +112,16 @@ const Welcome = () => {
                                     </>
                                 ) : (
                                     <div className="flex flex-col items-center justify-center h-full">
-                                        <BsHourglass className="text-white text-3xl" />
-                                        <p className="text-white font-light text-sm mt-2">
-                                            Estamos aguardando sua URL...
-                                        </p>
+                                        {isLoading ? (
+                                            <Loader />
+                                        ) : (
+                                            <>
+                                                <BsHourglass className="text-white text-3xl" />
+                                                <p className="text-white font-light text-sm mt-2">
+                                                    Estamos aguardando sua URL...
+                                                </p>
+                                            </>
+                                        )}
                                     </div>
                                 )}
                             </div>
@@ -124,18 +132,14 @@ const Welcome = () => {
 
                         <div className="h-[1px] w-full bg-gray-400 my-2" />
 
-                        {false ? (
-                            <Loader />
-                        ) : (
-                            <button
-                                type="button"
-                                onClick={handleSubmit}
-                                className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer"
-                            >
-                                Gerar
-                            </button>
-                        )}
-
+                        <button
+                            type="button"
+                            onClick={handleSubmit}
+                            className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer"
+                            disabled={isLoading}
+                        >
+                            {isLoading ? 'Gerando...' : 'Gerar'}
+                        </button>
                     </div>
                 </div>
             </div>
