@@ -37,7 +37,7 @@ const Welcome = () => {
         });
 
         clipboard.on('success', () => {
-            setIsCopied(true);
+            setTimeout(() => setIsCopied(true), 200);
             setTimeout(() => setIsCopied(false), 2000);
         });
 
