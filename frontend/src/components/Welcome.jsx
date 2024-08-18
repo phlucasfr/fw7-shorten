@@ -1,8 +1,7 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { BsInfoCircle, BsClipboard, BsClipboardCheck, BsHourglass } from "react-icons/bs";
 import PropTypes from 'prop-types';
 import { TransactionContext } from '../context/TransactionContext';
-
 import { Loader } from "./";
 
 const commonStyles = "min-h-[60px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
@@ -33,15 +32,14 @@ const Welcome = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (!formData.url) return;
-
         setIsLoading(true);
         await sendTransaction();
         setIsLoading(false);
     };
 
     const handleCopy = async () => {
+        console.log('Copy button clicked');
         try {
             if (navigator.clipboard && window.isSecureContext) {
                 await navigator.clipboard.writeText(shortUrl);
@@ -121,9 +119,9 @@ const Welcome = () => {
                                         <div className="flex items-center mt-2">
                                             <button
                                                 onClick={handleCopy}
-                                                className="flex items-center px-3 py-1 bg-blue-400 text-white rounded-md hover:bg-blue-600"
+                                                className="relative flex items-center px-3 py-1 bg-blue-400 text-white rounded-md hover:bg-blue-600"
                                             >
-                                                {isCopied ? <BsClipboardCheck className="mr-2" bg-green-400 /> : <BsClipboard className="mr-2" />}
+                                                {isCopied ? <BsClipboardCheck className="mr-2" /> : <BsClipboard className="mr-2" />}
                                                 {isCopied ? "Copiado!" : "Copiar"}
                                             </button>
                                         </div>
