@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { HiMenuAlt4 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
 import PropTypes from 'prop-types';
@@ -14,10 +15,21 @@ NavbarItem.propTypes = {
 }
 
 const Navbar = () => {
+    const navigate = useNavigate();
+
+    const handleLogoClick = () => {
+        navigate('/');
+    };
+
     return (
         <nav className="w-full flex md:justify-start justify-between items-center p-4">
             <div className="mt-4 ml-14 md:flex-[0.5] flex-initial justify-start items-center flex">
-                <img src={logo} alt="logo" className="w-32 cursor-pointer" />
+                <img
+                    src={logo}
+                    alt="logo"
+                    className="w-32 cursor-pointer"
+                    onClick={handleLogoClick}
+                />
                 <h1 className="text-3xl font-bold text-white ml-4 animate-text">FW7 Shorten</h1>
             </div>
         </nav>

@@ -49,11 +49,9 @@ export const TransactionsProvider = ({ children }) => {
                 setUrlsRemaining(data.remaining);
                 return;
             } catch (error) {
-                console.error(`Erro ao enviar a transação com a URL ${url}:`, error);
+                throw new Error(`Erro ao enviar a transação com a URL ${url}:`, erro);
             }
         }
-
-        console.error('Todas as tentativas de encurtar a URL falharam.');
     };
 
     return (

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Clipboard from 'clipboard';
 import { TransactionContext } from '../context/TransactionContext';
 import { Loader } from "./";
+import Modal from './Modal';
 
 const commonStyles = "min-h-[60px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
@@ -30,6 +31,8 @@ const Welcome = () => {
     const { connectWallet, currentAccount, formData, setFormData, handleChange, sendTransaction, shortUrl, urlsRemaining } = useContext(TransactionContext);
     const [isCopied, setIsCopied] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const clipboard = new Clipboard('.copy-btn', {
@@ -52,10 +55,26 @@ const Welcome = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.url) return;
+        if (!formData.url) {
+            setErrorMessage('Por favor, insira uma URL.');
+            setIsModalOpen(true);
+            return;
+        }
+
+        setErrorMessage('');
         setIsLoading(true);
-        await sendTransaction();
-        setIsLoading(false);
+        try {
+            await sendTransaction();
+        } catch (error) {
+            setErrorMessage('Ocorreu um erro ao gerar a URL. Verifique a URL fornecida.');
+            setIsModalOpen(true);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
     };
 
     return (
@@ -102,7 +121,7 @@ const Welcome = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div>
+                            <div className="flex flex-col items-center justify-center h-full">
                                 {shortUrl ? (
                                     <>
                                         <p className="text-white font-semibold text-lg">
@@ -121,24 +140,26 @@ const Welcome = () => {
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="flex flex-col items-center justify-center h-full">
+                                    <>
                                         {isLoading ? (
-                                            <Loader />
+                                            <div className="flex flex-col items-center justify-center h-full">
+                                                <Loader />
+                                            </div>
                                         ) : (
                                             <>
                                                 <BsHourglass className="text-white text-3xl" />
-                                                <p className="text-white font-light text-sm mt-2">
+                                                <p className="text-white font-bold text-sm mt-2">
                                                     Estamos aguardando sua URL...
                                                 </p>
                                             </>
                                         )}
-                                    </div>
+                                    </>
                                 )}
                             </div>
                         </div>
                     </div>
                     <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
-                        <Input placeholder="Digite aqui sua URL" name="url" type="text" handleChange={handleChange} />
+                        <Input placeholder="Digite aqui sua URL" name="url" type="text" value={formData.url} handleChange={handleChange} />
 
                         <div className="h-[1px] w-full bg-gray-400 my-2" />
 
@@ -153,6 +174,7 @@ const Welcome = () => {
                     </div>
                 </div>
             </div>
+            <Modal isOpen={isModalOpen} onClose={closeModal} message={errorMessage} />
         </div>
     );
 }
