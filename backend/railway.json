@@ -1,8 +1,11 @@
 {
-  "build": {
-    "dockerfilePath": "./Dockerfile"
-  },
-  "deploy": {
-    "command": "npm start"
-  }
+  "builds": [
+    {
+      "src": "backend/Dockerfile",
+      "use": "@railway/docker",
+      "config": {
+        "context": "backend"
+      }
+    }
+  ]
 }
