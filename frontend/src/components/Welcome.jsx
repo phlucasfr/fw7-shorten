@@ -42,31 +42,23 @@ const Welcome = () => {
     };
 
     const handleCopy = () => {
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(shortUrl)
-                .then(() => {
-                    setIsCopied(true);
-                    setTimeout(() => setIsCopied(false), 2000);
-                })
-                .catch(err => console.error('Failed to copy text: ', err));
-        } else {
-            const textarea = document.createElement('textarea');
-            textarea.value = shortUrl;
-            textarea.style.position = 'fixed';
-            textarea.style.opacity = '0';
-            document.body.appendChild(textarea);
-            textarea.focus();
-            textarea.select();
-            try {
-                document.execCommand('copy');
-                setIsCopied(true);
-                setTimeout(() => setIsCopied(false), 2000);
-            } catch (err) {
-                console.error('Failed to copy text: ', err);
-            } finally {
-                document.body.removeChild(textarea);
-            }
+        const textarea = document.createElement('textarea');
+        textarea.value = shortUrl;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            setIsCopied(true);
+            setTimeout(() => setIsCopied(false), 2000);
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        } finally {
+            document.body.removeChild(textarea);
         }
+
     };
 
     return (
