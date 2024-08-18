@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, memo } from 'react';
-import { BsInfoCircle, BsClipboard, BsClipboardCheck, BsHourglass } from "react-icons/bs";
+import { BsInfoCircle, BsClipboard, BsHourglass } from "react-icons/bs";
 import PropTypes from 'prop-types';
 import Clipboard from 'clipboard';
 import { TransactionContext } from '../context/TransactionContext';
@@ -31,7 +31,7 @@ const CopyButton = memo(({ isCopied, onClick }) => (
         className="copy-btn relative flex items-center px-3 py-1 bg-blue-400 text-white rounded-md hover:bg-blue-600"
         onClick={onClick}
     >
-        {isCopied ? <BsClipboardCheck className="mr-2" /> : <BsClipboard className="mr-2" />}
+        <BsClipboard className="mr-2" />
         {isCopied ? "Copiado!" : "Copiar"}
     </button>
 ));
