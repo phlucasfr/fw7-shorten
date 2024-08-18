@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { BsInfoCircle, BsClipboard, BsClipboardCheck, BsHourglass } from "react-icons/bs";
 import PropTypes from 'prop-types';
 import { TransactionContext } from '../context/TransactionContext';
@@ -42,9 +42,10 @@ const Welcome = () => {
     };
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(shortUrl);
-        setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 2000);
+        navigator.clipboard.writeText(shortUrl).then(() => {
+            setIsCopied(true);
+            setTimeout(() => setIsCopied(false), 2000);
+        }).catch(err => console.error('Failed to copy text: ', err));
     };
 
     return (
