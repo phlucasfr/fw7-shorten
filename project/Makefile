@@ -1,10 +1,6 @@
-# Makefile para gerenciar o projeto
-
-# Diretórios do projeto
 FRONTEND_DIR=frontend
 BACKEND_DIR=backend
 
-# Nome das imagens Docker
 FRONTEND_IMAGE=fw7-shorten-frontend
 BACKEND_IMAGE=fw7-shorten-backend
 
