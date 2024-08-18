@@ -8,14 +8,15 @@ const Redirect = () => {
     useEffect(() => {
         const fetchUrl = async () => {
             try {
-                // Atualize a URL de solicitação para a URL correta
                 const response = await fetch(`https://fw7-shorten.onrender.com/api/urls/${shortUrl}`);
                 const data = await response.json();
-
                 if (data.originalUrl) {
-                    // Redireciona para a URL original
                     window.location.href = data.originalUrl;
                 } else {
+                    console.log(response.status);
+                    console.log(response.statusText);
+                    log.error(response);
+
                     navigate('/404');
                 }
             } catch (error) {
