@@ -36,9 +36,9 @@ const Welcome = () => {
 
         if (!formData.url) return;
 
-        setIsLoading(true); // Inicia o carregamento
+        setIsLoading(true);
         await sendTransaction();
-        setIsLoading(false); // Finaliza o carregamento
+        setIsLoading(false);
     };
 
     const handleCopy = () => {
