@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 export const TransactionContext = React.createContext();
@@ -30,6 +30,8 @@ export const TransactionsProvider = ({ children }) => {
             'https://fw7-shorten-1.onrender.com/api/urls/shorten'
         ];
 
+        let lastError = null;
+
         for (const url of urls) {
             try {
                 const response = await fetchWithTimeout(url, {
@@ -49,8 +51,12 @@ export const TransactionsProvider = ({ children }) => {
                 setUrlsRemaining(data.remaining);
                 return;
             } catch (error) {
-                throw new Error(`Erro ao enviar a transação com a URL ${url}:`, erro);
+                lastError = `Erro ao enviar a transação com a URL ${url}: ${error.message}`;
             }
+        }
+
+        if (lastError) {
+            throw new Error(lastError);
         }
     };
 
