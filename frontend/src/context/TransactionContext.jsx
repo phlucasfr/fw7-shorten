@@ -3,6 +3,15 @@ import PropTypes from 'prop-types';
 
 export const TransactionContext = React.createContext();
 
+const fetchWithTimeout = (url, options, timeout = 5000) => {
+    return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Request timed out')), timeout)
+        )
+    ]);
+};
+
 export const TransactionsProvider = ({ children }) => {
 
     const [currentAccount, setCurrentAccount] = useState('');
@@ -15,25 +24,36 @@ export const TransactionsProvider = ({ children }) => {
     };
 
     const sendTransaction = async () => {
-        try {
-            const response = await fetch('https://fw7-shorten.onrender.com/api/urls/shorten', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ url: formData.url }),
-            });
+        const urls = [
+            'https://fw7-shorten.up.railway.app/api/urls/shorten',
+            'https://fw7-shorten.onrender.com/api/urls/shorten',
+            'https://fw7-shorten-1.onrender.com/api/urls/shorten'
+        ];
 
-            if (!response.ok) {
-                throw new Error('Erro ao encurtar a URL');
+        for (const url of urls) {
+            try {
+                const response = await fetchWithTimeout(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: formData.url }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao encurtar a URL');
+                }
+
+                const data = await response.json();
+                setShortUrl(data.shortUrl);
+                setUrlsRemaining(data.remaining);
+                return;
+            } catch (error) {
+                console.error(`Erro ao enviar a transação com a URL ${url}:`, error);
             }
-
-            const data = await response.json();
-            setShortUrl(data.shortUrl);
-            setUrlsRemaining(data.remaining);
-        } catch (error) {
-            console.error('Erro ao enviar a transação:', error);
         }
+
+        console.error('Todas as tentativas de encurtar a URL falharam.');
     };
 
     return (
