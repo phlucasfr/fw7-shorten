@@ -13,7 +13,7 @@ export const shortenUrlService = async (originalUrl: string, remainingUrls: numb
   const shortId: string = generateShortId();
   await saveUrl({ originalUrl, shortId });
   return {
-    shortUrl: `https://fw7.dev/${shortId}`,
+    shortUrl: `https://fw7-shorten.onrender.com/api/urls/${shortId}`,
     remaining: remainingUrls - 1,
     shortId,
   };

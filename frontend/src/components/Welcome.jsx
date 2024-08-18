@@ -5,7 +5,7 @@ import { TransactionContext } from '../context/TransactionContext';
 
 import { Loader } from "./";
 
-const commonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
+const commonStyles = "min-h-[90px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
 const Input = ({ placeholder, name, type, value, handleChange }) => (
     <input
@@ -42,7 +42,7 @@ const Welcome = () => {
     const handleCopy = () => {
         navigator.clipboard.writeText(shortUrl);
         setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 2000); // Reseta o estado de cópia após 2 segundos
+        setTimeout(() => setIsCopied(false), 2000);
     };
 
     return (
@@ -80,17 +80,22 @@ const Welcome = () => {
 
                 <div className="flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10">
                     <div className="p-3 justify-end items-start flex-col rounded-xl h-40 sm:w-72 w-full my-5 eth-card white-glassmorphism">
-                        <div className="flex justify-between flex-col w-full h-full">
+                        <div className="relative flex justify-between flex-col w-full h-full">
                             <div className="flex justify-between items-start">
-                                <BsInfoCircle fontSize={17} color="#fff" />
+                                <div className="relative group">
+                                    <BsInfoCircle fontSize={17} color="#fff" />
+                                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-black text-white text-xs rounded py-1 px-2 whitespace-nowrap">
+                                        Cada usuário possui 100 encurtamentos de URL por dia.
+                                    </div>
+                                </div>
                             </div>
                             <div>
                                 {shortUrl ? (
                                     <>
-                                        <p className="text-white font-light text-sm">
+                                        <p className="text-white font-semibold text-lg">
                                             {shortUrl}
                                         </p>
-                                        <p className="text-white font-semibold text-lg mt-1">
+                                        <p className="text-white font-light text-sm mt-1">
                                             {`URLs restantes: ${urlsRemaining}`}
                                         </p>
                                         <div className="flex items-center mt-2">
