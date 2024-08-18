@@ -8,7 +8,7 @@ const Redirect = () => {
     useEffect(() => {
         const fetchUrl = async () => {
             try {
-                const response = await fetch(`https://fw7-shorten.onrender.com/api/urls/${shortUrl}`);
+                const response = await fetch(`https://fw7-shrt.vercel.app/api/urls/${shortUrl}`);
                 const data = await response.json();
                 if (data.originalUrl) {
                     window.location.href = data.originalUrl;

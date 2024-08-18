@@ -5,7 +5,7 @@ import { TransactionContext } from '../context/TransactionContext';
 
 import { Loader } from "./";
 
-const commonStyles = "min-h-[90px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
+const commonStyles = "min-h-[60px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
 const Input = ({ placeholder, name, type, value, handleChange }) => (
     <input
@@ -41,24 +41,28 @@ const Welcome = () => {
         setIsLoading(false);
     };
 
-    const handleCopy = () => {
-        const textarea = document.createElement('textarea');
-        textarea.value = shortUrl;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
+    const handleCopy = async () => {
         try {
-            document.execCommand('copy');
-            setIsCopied(true);
-            setTimeout(() => setIsCopied(false), 2000);
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(shortUrl);
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 2000);
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = shortUrl;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 2000);
+            }
         } catch (err) {
             console.error('Failed to copy text: ', err);
-        } finally {
-            document.body.removeChild(textarea);
         }
-
     };
 
     return (
@@ -119,7 +123,7 @@ const Welcome = () => {
                                                 onClick={handleCopy}
                                                 className="flex items-center px-3 py-1 bg-blue-400 text-white rounded-md hover:bg-blue-600"
                                             >
-                                                {isCopied ? <BsClipboardCheck className="mr-2" /> : <BsClipboard className="mr-2" />}
+                                                {isCopied ? <BsClipboardCheck className="mr-2" bg-green-400 /> : <BsClipboard className="mr-2" />}
                                                 {isCopied ? "Copiado!" : "Copiar"}
                                             </button>
                                         </div>
