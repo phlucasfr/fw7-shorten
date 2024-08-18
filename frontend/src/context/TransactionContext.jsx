@@ -16,7 +16,7 @@ export const TransactionsProvider = ({ children }) => {
 
     const sendTransaction = async () => {
         try {
-            const response = await fetch('http://localhost:4000/api/urls/shorten', {
+            const response = await fetch('https://fw7-shorten.onrender.com/api/urls/shorten', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
