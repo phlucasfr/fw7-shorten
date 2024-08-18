@@ -1,0 +1,22 @@
+{
+    "services": [
+      {
+        "name": "frontend",
+        "path": "./frontend",
+        "build": {
+          "command": "npm install && npm run build",
+          "output": "build"
+        }
+      },
+      {
+        "name": "backend",
+        "path": "./backend",
+        "build": {
+          "command": "npm install && npm run build",
+          "output": "dist"
+        },
+        "start": "npm start"
+      }
+    ]
+  }
+  
