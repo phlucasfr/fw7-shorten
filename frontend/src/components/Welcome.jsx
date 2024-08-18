@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, memo } from 'react';
 import { BsInfoCircle, BsClipboard, BsClipboardCheck, BsHourglass } from "react-icons/bs";
 import PropTypes from 'prop-types';
 import Clipboard from 'clipboard';
@@ -26,6 +26,21 @@ Input.propTypes = {
     handleChange: PropTypes.func,
 }
 
+const CopyButton = memo(({ isCopied, onClick }) => (
+    <button
+        className="copy-btn relative flex items-center px-3 py-1 bg-blue-400 text-white rounded-md hover:bg-blue-600"
+        onClick={onClick}
+    >
+        {isCopied ? <BsClipboardCheck className="mr-2" /> : <BsClipboard className="mr-2" />}
+        {isCopied ? "Copiado!" : "Copiar"}
+    </button>
+));
+
+CopyButton.propTypes = {
+    isCopied: PropTypes.bool.isRequired,
+    onClick: PropTypes.func.isRequired,
+}
+
 const Welcome = () => {
     const { connectWallet, currentAccount, formData, setFormData, handleChange, sendTransaction, shortUrl, urlsRemaining } = useContext(TransactionContext);
     const [isCopied, setIsCopied] = useState(false);
@@ -37,7 +52,7 @@ const Welcome = () => {
         });
 
         clipboard.on('success', () => {
-            setTimeout(() => setIsCopied(true), 200);
+            setIsCopied(true);
             setTimeout(() => setIsCopied(false), 2000);
         });
 
@@ -112,12 +127,10 @@ const Welcome = () => {
                                             {`URLs restantes: ${urlsRemaining}`}
                                         </p>
                                         <div className="flex items-center mt-2">
-                                            <button
-                                                className="copy-btn relative flex items-center px-3 py-1 bg-blue-400 text-white rounded-md hover:bg-blue-600"
-                                            >
-                                                {isCopied ? <BsClipboardCheck className="mr-2" /> : <BsClipboard className="mr-2" />}
-                                                {isCopied ? "Copiado!" : "Copiar"}
-                                            </button>
+                                            <CopyButton
+                                                isCopied={isCopied}
+                                                onClick={() => { } /* Implementação do click, se necessário */}
+                                            />
                                         </div>
                                     </>
                                 ) : (
