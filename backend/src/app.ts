@@ -39,9 +39,4 @@ process.on('SIGINT', async () => {
   process.exit(0);
 });
 
-process.on('SIGTERM', async () => {
-  await stopServer();
-  process.exit(0);
-});
-
 startServer();
