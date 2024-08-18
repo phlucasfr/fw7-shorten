@@ -19,6 +19,7 @@ Abaixo estão as instruções para instalar e rodar o projeto localmente, caso d
 
 - **Docker:** Certifique-se de ter o Docker instalado em sua máquina.
 - **Git:** Para clonar o repositório.
+- **Redis:** Um serviço Redis deve estar disponível para o backend funcionar corretamente.
 
 ## Instalação e Execução
 
@@ -30,13 +31,22 @@ As imagens Docker do projeto já estão disponíveis. Para rodar a aplicação l
     git clone https://github.com/phlucasfr/fw7-shorten
     ```
 
-2. **Navegue até o diretório `project`:**
+2. **Configure o Redis para o Backend:**
+
+   Para o backend funcionar corretamente, você precisa ter um serviço Redis disponível. Crie um arquivo `.env` na pasta `backend` e configure as variáveis de ambiente necessárias:
+
+    ```plaintext
+    REDIS_URL=SUA_URL_REDIS
+    REDISCLI_AUTH=SUA_AUTH_REDIS
+    PORT=4000
+    ```
+3. **Navegue até o diretório `project`:**
 
     ```bash
     cd project
     ```
 
-3. **Execute o comando para construir e iniciar os containers do frontend e backend:**
+4. **Execute o comando para construir e iniciar os containers do frontend e backend:**
 
     ```bash
     make all
