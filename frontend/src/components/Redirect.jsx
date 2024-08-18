@@ -13,10 +13,6 @@ const Redirect = () => {
                 if (data.originalUrl) {
                     window.location.href = data.originalUrl;
                 } else {
-                    console.log(response.status);
-                    console.log(response.statusText);
-                    log.error(response);
-
                     navigate('/404');
                 }
             } catch (error) {
