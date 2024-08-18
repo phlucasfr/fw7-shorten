@@ -1,6 +1,7 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { BsInfoCircle, BsClipboard, BsClipboardCheck, BsHourglass } from "react-icons/bs";
 import PropTypes from 'prop-types';
+import Clipboard from 'clipboard';
 import { TransactionContext } from '../context/TransactionContext';
 import { Loader } from "./";
 
@@ -30,37 +31,31 @@ const Welcome = () => {
     const [isCopied, setIsCopied] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    useEffect(() => {
+        const clipboard = new Clipboard('.copy-btn', {
+            text: () => shortUrl,
+        });
+
+        clipboard.on('success', () => {
+            setIsCopied(true);
+            setTimeout(() => setIsCopied(false), 2000);
+        });
+
+        clipboard.on('error', (e) => {
+            console.error('Failed to copy text: ', e);
+        });
+
+        return () => {
+            clipboard.destroy();
+        };
+    }, [shortUrl]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.url) return;
         setIsLoading(true);
         await sendTransaction();
         setIsLoading(false);
-    };
-
-    const handleCopy = async () => {
-        console.log('Copy button clicked');
-        try {
-            if (navigator.clipboard && window.isSecureContext) {
-                await navigator.clipboard.writeText(shortUrl);
-                setIsCopied(true);
-                setTimeout(() => setIsCopied(false), 2000);
-            } else {
-                const textarea = document.createElement('textarea');
-                textarea.value = shortUrl;
-                textarea.style.position = 'fixed';
-                textarea.style.opacity = '0';
-                document.body.appendChild(textarea);
-                textarea.focus();
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                setIsCopied(true);
-                setTimeout(() => setIsCopied(false), 2000);
-            }
-        } catch (err) {
-            console.error('Failed to copy text: ', err);
-        }
     };
 
     return (
@@ -118,8 +113,7 @@ const Welcome = () => {
                                         </p>
                                         <div className="flex items-center mt-2">
                                             <button
-                                                onClick={handleCopy}
-                                                className="relative flex items-center px-3 py-1 bg-blue-400 text-white rounded-md hover:bg-blue-600"
+                                                className="copy-btn relative flex items-center px-3 py-1 bg-blue-400 text-white rounded-md hover:bg-blue-600"
                                             >
                                                 {isCopied ? <BsClipboardCheck className="mr-2" /> : <BsClipboard className="mr-2" />}
                                                 {isCopied ? "Copiado!" : "Copiar"}
