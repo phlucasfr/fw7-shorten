@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 
-RUN rm -rf node_modules dist
+RUN rm -rf dist
 
 COPY . .
 
