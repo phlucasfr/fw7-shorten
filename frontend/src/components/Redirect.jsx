@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const fetchWithTimeout = (url, timeout = 5000) => {
+const fetchWithTimeout = (url, timeout = 2000) => {
     return Promise.race([
         fetch(url),
         new Promise((_, reject) =>
