@@ -13,7 +13,7 @@ Abaixo estão as instruções para instalar e rodar o projeto localmente, caso d
 - **Frontend:** React, Vite
 - **Backend:** Node.js, TypeScript, Express
 - **Banco de Dados:** Redis
-- **Infraestrutura:** Docker, Render, Railway, Vercel
+- **Infraestrutura:** Docker, Testcontainers, Render, Railway, Vercel
 
 ## Pré-requisitos
 
