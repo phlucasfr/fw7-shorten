@@ -20,6 +20,7 @@ Abaixo estão as instruções para instalar e rodar o projeto localmente, caso d
 - **Docker:** Certifique-se de ter o Docker instalado em sua máquina.
 - **Git:** Para clonar o repositório.
 - **Redis:** Um serviço Redis deve estar disponível para o backend funcionar corretamente.
+- **Make:** Certifique-se de ter o Make instalado em sua máquina para executar comandos predefinidos.
 
 ## Instalação e Execução
 
