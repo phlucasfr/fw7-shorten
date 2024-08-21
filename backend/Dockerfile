@@ -10,8 +10,8 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 4000
+EXPOSE ${PORT}
 
-ENV PORT=4000
+RUN npm run test
 
 CMD [ "npm", "start" ]
