@@ -13,7 +13,7 @@ Abaixo estão as instruções para instalar e rodar o projeto localmente, caso d
 - **Frontend:** React, Vite
 - **Backend:** Node.js, TypeScript, Express
 - **Banco de Dados:** Redis
-- **Infraestrutura:** Docker, Render, Railway, Vercel
+- **Infraestrutura:** Docker, Testcontainers, Render, Railway, Vercel
 
 ## Pré-requisitos
 
@@ -54,6 +54,13 @@ As imagens Docker do projeto já estão disponíveis. Para rodar a aplicação l
     ```
 
 Este comando irá construir as imagens Docker do frontend e backend e iniciar os containers correspondentes. O frontend estará disponível na porta `5000`, e o backend na porta `4000`.
+
+## Testes
+
+O projeto inclui uma suíte de testes para garantir a qualidade do código e a funcionalidade da aplicação.
+
+## Ações (GitHub Actions)
+Este projeto utiliza GitHub Actions para CI/CD, que automatiza a construção, teste e deploy da aplicação. As ações são configuradas para garantir que o código esteja sempre atualizado e funcionando conforme o esperado antes de ser integrado ao branch principal.
 
 ## Documentação da API
 
