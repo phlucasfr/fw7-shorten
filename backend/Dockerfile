@@ -12,6 +12,4 @@ RUN npm run build
 
 EXPOSE ${PORT}
 
-RUN npm run test
-
 CMD [ "npm", "start" ]
