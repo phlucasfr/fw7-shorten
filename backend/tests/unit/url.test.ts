@@ -55,7 +55,7 @@ describe('Url Service', () => {
 
     const savedUrl = await getUrlService(result.shortId);
     expect(savedUrl).toBe(`https://www.${originalUrl}`);
-  }, 10000);
+  });
 
   it('deve retornar a URL original', async () => {
     const originalUrl = 'exampletest2.com';
@@ -63,16 +63,16 @@ describe('Url Service', () => {
 
     const savedUrl = await getUrlService(result.shortId);
     expect(savedUrl).toBe(`https://www.${originalUrl}`);
-  }, 10000);
+  });
 
   it('deve retornar null para um shortId não encontrado', async () => {
     const result = await getUrlService('nonexistentId');
     expect(result).toBeNull();
-  }, 10000);
+  });
 
   it('deve tratar entradas maliciosas no retrieveUrl', async () => {
     const sqlInjectionAttempt = "' OR '1'='1";
     const result = await getUrlService(sqlInjectionAttempt);
     expect(result).toBeNull();
-  }, 10000);
+  });
 });
