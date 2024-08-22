@@ -1,3 +1,4 @@
+
 import { RedisContainer, StartedRedisContainer } from '@testcontainers/redis';
 import { createClient, RedisClientType } from 'redis';
 
@@ -14,9 +15,18 @@ export const setupRedis = async (): Promise<void> => {
 };
 
 const teardownRedis = async (): Promise<void> => {
-  await redisClient.quit();
-  await redisContainer.stop();
+  if (redisClient) {
+    await redisClient.quit();
+  }
+  if (redisContainer) {
+    await redisContainer.stop();
+  }
 };
+
+beforeAll(async () => {
+  jest.setTimeout(60000);
+  await setupRedis();
+});
 
 afterAll(async () => {
   await teardownRedis(); 

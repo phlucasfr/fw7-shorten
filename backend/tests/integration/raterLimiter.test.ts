@@ -22,7 +22,7 @@ const shortTermRateLimiter = jest.fn(async (req: any, res: any, next: any) => {
           await redisClient.incr(key);
         } else {
           await redisClient.set(key, '1', {
-            EX: 2, // Tempo reduzido para testes, 2 segundos
+            EX: 2,
           });
         }
       }
@@ -47,6 +47,7 @@ app.use('/api/urls', urlRouter);
 
 describe('Rate Limiter Integration Tests', () => {
   beforeAll(async () => {
+    jest.setTimeout(60000);
     await setupRedis();
     const redisClient = getRedisClient();
     await redisClient.flushDb();

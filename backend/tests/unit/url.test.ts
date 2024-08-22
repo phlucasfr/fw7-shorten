@@ -1,11 +1,12 @@
 import { RedisClientType } from 'redis';
 import URLParse from 'url-parse';
-import { setupRedis, getRedisClient } from '../redisContainerSetup'; 
+import { setupRedis, getRedisClient } from '../redisContainerSetup';
 
 describe('Url Service', () => {
   let redisClient: RedisClientType;
 
   beforeAll(async () => {
+    jest.setTimeout(60000);
     await setupRedis();
     redisClient = getRedisClient();
   });
