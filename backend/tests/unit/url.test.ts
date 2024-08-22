@@ -41,12 +41,10 @@ describe('Url Service', () => {
 
     const parsedUrl = new URLParse(originalUrl, {});
 
-    // Adicionar "https://" se não estiver presente
     if (!parsedUrl.protocol) {
       parsedUrl.set('protocol', 'https:');
     }
 
-    // Adicionar "www." se não estiver presente
     if (!parsedUrl.hostname.startsWith('www.')) {
       parsedUrl.set('hostname', `www.${parsedUrl.hostname}`);
     }
