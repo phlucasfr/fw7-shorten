@@ -24,7 +24,7 @@ Abaixo estão as instruções para instalar e rodar o projeto localmente, caso d
 
 ## Instalação e Execução
 
-As imagens Docker do projeto já estão disponíveis. Para rodar a aplicação localmente e contribuir para o desenvolvimento, siga os passos abaixo:
+Para rodar a aplicação localmente e contribuir para o desenvolvimento, siga os passos abaixo:
 
 1. **Clone o repositório:**
 
