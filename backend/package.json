@@ -21,6 +21,7 @@
     "test": "jest"
   },
   "jest": {
+    "setupFilesAfterEnv": ["<rootDir>/tests/redisContainerSetup.ts"],
     "testEnvironment": "node",
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
