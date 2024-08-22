@@ -6,6 +6,7 @@ let redisContainer: StartedRedisContainer;
 let redisClient: RedisClientType;
 
 export const setupRedis = async (): Promise<void> => {
+  jest.setTimeout(10000);
   redisContainer = await new RedisContainer().start();
   redisClient = createClient({
     url: redisContainer.getConnectionUrl(),
