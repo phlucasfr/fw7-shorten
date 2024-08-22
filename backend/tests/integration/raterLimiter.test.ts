@@ -47,7 +47,6 @@ app.use('/api/urls', urlRouter);
 
 describe('Rate Limiter Integration Tests', () => {
   beforeAll(async () => {
-    jest.setTimeout(60000);
     await setupRedis();
     const redisClient = getRedisClient();
     await redisClient.flushDb();

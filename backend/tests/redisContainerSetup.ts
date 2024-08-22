@@ -6,7 +6,6 @@ let redisContainer: StartedRedisContainer;
 let redisClient: RedisClientType;
 
 export const setupRedis = async (): Promise<void> => {
-  jest.setTimeout(60000);
   redisContainer = await new RedisContainer().start();
   redisClient = createClient({
     url: redisContainer.getConnectionUrl(),
@@ -24,7 +23,6 @@ const teardownRedis = async (): Promise<void> => {
 };
 
 beforeAll(async () => {
-  jest.setTimeout(60000);
   await setupRedis();
 });
 

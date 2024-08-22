@@ -6,7 +6,6 @@ describe('Url Service', () => {
   let redisClient: RedisClientType;
 
   beforeAll(async () => {
-    jest.setTimeout(60000);
     await setupRedis();
     redisClient = getRedisClient();
   });
