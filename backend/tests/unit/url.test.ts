@@ -1,27 +1,17 @@
-import { RedisContainer, StartedRedisContainer } from '@testcontainers/redis';
-import { createClient, RedisClientType } from 'redis';
+import { RedisClientType } from 'redis';
 import URLParse from 'url-parse';
+import { setupRedis, teardownRedis, getRedisClient } from '../redisContainerSetup'; 
 
 describe('Url Service', () => {
-  let redisContainer: StartedRedisContainer;
   let redisClient: RedisClientType;
 
   beforeAll(async () => {
-    jest.setTimeout(60000);
-    redisContainer = await new RedisContainer().start();
-    redisClient = createClient({
-      url: redisContainer.getConnectionUrl(),
-    });
-    await redisClient.connect();
-  }, 60000);
+    await setupRedis();
+    redisClient = getRedisClient();
+  });
 
   afterAll(async () => {
-    await redisClient.quit();
-    await redisContainer.stop();
-  }, 60000);
-
-  beforeEach(() => {
-    jest.clearAllMocks();
+    await teardownRedis(); 
   });
 
   const generateShortId = (): string => {
