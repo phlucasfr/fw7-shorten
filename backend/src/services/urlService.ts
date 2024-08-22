@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import URLParse from 'url-parse';
 import { saveUrl, getUrl } from '../repositories/urlRepository';
 
 interface ShortenPayload {
@@ -12,16 +13,19 @@ const generateShortId = (): string => uuidv4().slice(0, 8);
 export const shortenUrlService = async (originalUrl: string, remainingUrls: number): Promise<ShortenPayload> => {
   const shortId: string = generateShortId();
 
-  const urlWithProtocol = originalUrl.startsWith('http://') || originalUrl.startsWith('https://')
-    ? originalUrl
-    : `https://${originalUrl}`;
+  const parsedUrl = new URLParse(originalUrl, {});
 
-  const urlWithWww = urlWithProtocol.replace(/^(http:\/\/|https:\/\/)?(www\.)?/, (match, p1, p2) => {
-    if (p1 || p2) return match;
-    return `https://www.${originalUrl}`;
-  });
+  if (!parsedUrl.protocol) {
+    parsedUrl.set('protocol', 'https:');
+  }
 
-  await saveUrl({ originalUrl: urlWithWww, shortId });
+  if (!parsedUrl.hostname.startsWith('www.')) {
+    parsedUrl.set('hostname', `www.${parsedUrl.hostname}`);
+  }
+
+  const formattedUrl = parsedUrl.toString();
+
+  await saveUrl({ originalUrl: formattedUrl, shortId });
   return {
     shortUrl: `https://fw7-shrt.vercel.app/${shortId}`,
     remaining: remainingUrls - 1,
