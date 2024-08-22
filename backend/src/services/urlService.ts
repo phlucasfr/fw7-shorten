@@ -18,7 +18,7 @@ export const shortenUrlService = async (originalUrl: string, remainingUrls: numb
 
   const urlWithWww = urlWithProtocol.replace(/^(http:\/\/|https:\/\/)?(www\.)?/, (match, p1, p2) => {
     if (p1 || p2) return match;
-    return `http://www.${originalUrl}`;
+    return `https://www.${originalUrl}`;
   });
 
   await saveUrl({ originalUrl: urlWithWww, shortId });
