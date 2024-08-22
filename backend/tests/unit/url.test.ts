@@ -1,6 +1,6 @@
 import { RedisClientType } from 'redis';
 import URLParse from 'url-parse';
-import { setupRedis, getRedisClient } from '../redisContainerSetup';
+import { setupRedis, teardownRedis, getRedisClient } from '../redisContainerSetup';
 
 describe('Url Service', () => {
   let redisClient: RedisClientType;
@@ -8,6 +8,10 @@ describe('Url Service', () => {
   beforeAll(async () => {
     await setupRedis();
     redisClient = getRedisClient();
+  });
+  
+  afterAll(async () => {
+    await teardownRedis(); 
   });
 
   const generateShortId = (): string => {

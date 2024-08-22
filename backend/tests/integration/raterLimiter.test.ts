@@ -1,6 +1,6 @@
 import request from 'supertest';
 import express from 'express';
-import { setupRedis, getRedisClient } from '../redisContainerSetup';
+import { setupRedis, teardownRedis, getRedisClient } from '../redisContainerSetup';
 
 const shortTermRateLimiter = jest.fn(async (req: any, res: any, next: any) => {
   if (req.method === 'POST' && req.path.startsWith('/api/urls/shorten')) {
@@ -50,6 +50,10 @@ describe('Rate Limiter Integration Tests', () => {
     await setupRedis();
     const redisClient = getRedisClient();
     await redisClient.flushDb();
+  });
+  
+  afterAll(async () => {
+    await teardownRedis(); 
   });
 
   it('deve permitir até o limite de requisições', async () => {

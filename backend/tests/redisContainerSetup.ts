@@ -13,7 +13,7 @@ export const setupRedis = async (): Promise<void> => {
   await redisClient.connect();
 };
 
-const teardownRedis = async (): Promise<void> => {
+export const teardownRedis = async (): Promise<void> => {
   if (redisClient) {
     await redisClient.quit();
   }
@@ -21,13 +21,5 @@ const teardownRedis = async (): Promise<void> => {
     await redisContainer.stop();
   }
 };
-
-beforeAll(async () => {
-  await setupRedis();
-});
-
-afterAll(async () => {
-  await teardownRedis(); 
-});
 
 export const getRedisClient = (): RedisClientType => redisClient;
