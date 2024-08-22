@@ -13,9 +13,13 @@ export const setupRedis = async (): Promise<void> => {
   await redisClient.connect();
 };
 
-export const teardownRedis = async (): Promise<void> => {
+const teardownRedis = async (): Promise<void> => {
   await redisClient.quit();
   await redisContainer.stop();
 };
+
+afterAll(async () => {
+  await teardownRedis(); 
+});
 
 export const getRedisClient = (): RedisClientType => redisClient;
