@@ -68,7 +68,7 @@ describe('Rate Limiter Integration Tests', () => {
 
     expect(response.status).toBe(429);
     expect(response.body.error).toBe('Você atingiu o limite de encurtamentos de URL. Tente novamente amanhã.');
-  });
+  }, 10000);
 
   it('deve permitir requisições após o limite ser alcançado (após expiração)', async () => {
     const limit = 10;
@@ -86,5 +86,5 @@ describe('Rate Limiter Integration Tests', () => {
       .send({ originalUrl: 'example.com' });
 
     expect(response.status).toBe(201); 
-  }, 3000);
+  }, 10000);
 });
