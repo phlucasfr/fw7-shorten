@@ -42,14 +42,14 @@ export const TransactionsProvider = ({ children }) => {
                     body: JSON.stringify({ url: formData.url }),
                 });
 
-                if (!response.ok) {
+                if (response.status === 201) {
+                    const data = await response.json();
+                    setShortUrl(data.shortUrl);
+                    setUrlsRemaining(data.remaining);
+                    break;
+                } else if (!response.ok) {
                     throw new Error('Erro ao encurtar a URL');
                 }
-
-                const data = await response.json();
-                setShortUrl(data.shortUrl);
-                setUrlsRemaining(data.remaining);
-                return;
             } catch (error) {
                 lastError = `Erro ao enviar a transação com a URL ${url}: ${error.message}`;
             }
