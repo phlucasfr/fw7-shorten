@@ -2,7 +2,6 @@
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
-  "gitForkProtection": true,
   "github": {
     "enabled": true,
     "requireChecks": ["Run Tests"]
