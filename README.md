@@ -1,7 +1,5 @@
 # FW7 Shorten URL
 
-## Descrição
-
 FW7 Shorten URL é uma aplicação web para encurtamento de URLs. A aplicação foi construída utilizando React, Vite, Node.js, TypeScript, Redis, Docker e Express. O frontend está hospedado no Vercel, e o backend está hospedado no Render e Railway.
 
 **O site de produção está disponível em:** [https://fw7-shrt.vercel.app/](https://fw7-shrt.vercel.app/)
