@@ -10,6 +10,7 @@ const commonStyles = "min-h-[60px] sm:px-0 px-2 sm:min-w-[120px] flex justify-ce
 
 const Input = ({ placeholder, name, type, value, handleChange }) => (
     <input
+        aria-label={placeholder}
         placeholder={placeholder}
         type={type}
         step="0.0001"
@@ -24,8 +25,8 @@ Input.propTypes = {
     name: PropTypes.string,
     type: PropTypes.string,
     value: PropTypes.string,
-    handleChange: PropTypes.func,
-}
+    handleChange: PropTypes.func.isRequired,
+};
 
 const Welcome = () => {
     const { connectWallet, currentAccount, formData, setFormData, handleChange, sendTransaction, shortUrl, urlsRemaining } = useContext(TransactionContext);
@@ -40,7 +41,7 @@ const Welcome = () => {
         });
 
         clipboard.on('success', () => {
-            setTimeout(() => setIsCopied(true), 200);
+            setIsCopied(true);
             setTimeout(() => setIsCopied(false), 2000);
         });
 
@@ -48,9 +49,7 @@ const Welcome = () => {
             console.error('Failed to copy text: ', e);
         });
 
-        return () => {
-            clipboard.destroy();
-        };
+        return () => clipboard.destroy();
     }, [shortUrl]);
 
     const handleSubmit = async (e) => {
@@ -73,9 +72,7 @@ const Welcome = () => {
         }
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
+    const closeModal = () => setIsModalOpen(false);
 
     return (
         <div className="flex w-full justify-center items-center">
@@ -89,24 +86,14 @@ const Welcome = () => {
                     </p>
 
                     <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
-                        <div className={`rounded-tl-2xl ${commonStyles}`}>
-                            Velocidade
-                        </div>
-                        <div className={commonStyles}>
-                            Segurança
-                        </div>
-                        <div className={`rounded-tr-2xl ${commonStyles}`}>
-                            Gratuito
-                        </div>
-                        <div className={`rounded-bl-2xl ${commonStyles}`}>
-                            Escalável
-                        </div>
-                        <div className={commonStyles}>
-                            Inovação
-                        </div>
-                        <div className={`rounded-br-2xl ${commonStyles}`}>
-                            Anonimato
-                        </div>
+                        {['Velocidade', 'Segurança', 'Gratuito', 'Escalável', 'Inovação', 'Anonimato'].map((feature, index) => (
+                            <div
+                                key={index}
+                                className={`${commonStyles} ${index === 0 ? 'rounded-tl-2xl' : ''} ${index === 2 ? 'rounded-tr-2xl' : ''} ${index === 3 ? 'rounded-bl-2xl' : ''} ${index === 5 ? 'rounded-br-2xl' : ''}`}
+                            >
+                                {feature}
+                            </div>
+                        ))}
                     </div>
                 </div>
 
@@ -130,30 +117,25 @@ const Welcome = () => {
                                         <p className="text-white font-light text-sm mt-1">
                                             {`URLs restantes: ${urlsRemaining}`}
                                         </p>
-                                        <div className="flex items-center mt-2">
-                                            <button
-                                                className="copy-btn relative flex items-center px-3 py-1 bg-blue-400 text-white rounded-md hover:bg-blue-600"
-                                            >
-                                                <BsClipboard className="mr-2" />
-                                                {isCopied ? "Copiado!" : "Copiar"}
-                                            </button>
-                                        </div>
+                                        <button
+                                            className="copy-btn relative flex items-center px-3 py-1 bg-blue-400 text-white rounded-md hover:bg-blue-600 mt-2 focus:ring-2 focus:ring-blue-300"
+                                            aria-label="Copiar URL"
+                                        >
+                                            <BsClipboard className="mr-2" />
+                                            {isCopied ? "Copiado!" : "Copiar"}
+                                        </button>
                                     </>
                                 ) : (
-                                    <>
-                                        {isLoading ? (
-                                            <div className="flex flex-col items-center justify-center h-full">
-                                                <Loader />
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <BsHourglass className="text-white text-3xl" />
-                                                <p className="text-white font-bold text-sm mt-2">
-                                                    Estamos aguardando sua URL...
-                                                </p>
-                                            </>
-                                        )}
-                                    </>
+                                    isLoading ? (
+                                        <Loader />
+                                    ) : (
+                                        <>
+                                            <BsHourglass className="text-white text-3xl" />
+                                            <p className="text-white font-bold text-sm mt-2">
+                                                Estamos aguardando sua URL...
+                                            </p>
+                                        </>
+                                    )
                                 )}
                             </div>
                         </div>
@@ -166,7 +148,7 @@ const Welcome = () => {
                         <button
                             type="button"
                             onClick={handleSubmit}
-                            className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer"
+                            className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer hover:bg-[#3d4f7c] focus:ring-2 focus:ring-[#3d4f7c]"
                             disabled={isLoading}
                         >
                             {isLoading ? 'Gerando...' : 'Gerar'}
@@ -177,6 +159,6 @@ const Welcome = () => {
             <Modal isOpen={isModalOpen} onClose={closeModal} message={errorMessage} />
         </div>
     );
-}
+};
 
 export default Welcome;
